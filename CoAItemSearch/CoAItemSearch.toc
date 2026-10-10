@@ -1,0 +1,6 @@
+## Interface: 30300
+## Title: CoA Item Search
+## Notes: Search every item of the server by name or id and add it to your bags (GM command). /items
+## Author: CoA Custom
+## OptionalDeps: CoAItemSearch_Data
+CoAItemSearch.lua
