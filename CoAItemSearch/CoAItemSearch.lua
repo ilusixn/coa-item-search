@@ -86,8 +86,16 @@ for i = 1, ROWS do
     row.add:SetSize(80, 20)
     row.add:SetPoint("RIGHT")
     row.add:SetText("Add item")
-    row.qty = CreateFrame("EditBox", nil, row, "InputBoxTemplate")      -- amount for this item; empty = 1
-    row.qty:SetSize(34, 20)
+    row.qty = CreateFrame("EditBox", nil, row)                          -- amount for this item; empty = 1
+    row.qty:SetSize(38, 20)                                              -- (InputBoxTemplate breaks at this size)
+    row.qty:SetBackdrop({ bgFile = "Interface\ChatFrame\ChatFrameBackground",
+        edgeFile = "Interface\Tooltips\UI-Tooltip-Border", edgeSize = 10,
+        insets = { left = 2, right = 2, top = 2, bottom = 2 } })
+    row.qty:SetBackdropColor(0, 0, 0, 0.7)
+    row.qty:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
+    row.qty:SetFontObject(ChatFontNormal)
+    row.qty:SetJustifyH("CENTER")
+    row.qty:SetTextInsets(3, 3, 0, 0)
     row.qty:SetPoint("RIGHT", row.add, "LEFT", -6, 0)
     row.qty:SetAutoFocus(false)
     row.qty:SetNumeric(true)
