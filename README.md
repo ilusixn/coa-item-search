@@ -6,8 +6,8 @@ CoA Custom). It searches every item of the server by name or ID and adds the ite
 * `/items` (or `/itemsearch`) opens the window. `/items thunderfury` searches right away.
 * Type a name, part of a name or an item ID, then press **Enter**.
 * Each result shows its icon, its name in quality colour, its ID and its item level.
-* **Add item** sends `.additem <id> <count>`. Set the count in the **Count** box. Your account needs GM rights on
-  the server (game master or administrator).
+* Each row has an amount box next to **Add item**. Leave it empty for 1. Press Enter in the box or click **Add item**
+  to send `.additem <id> <amount>`. Your account needs GM rights on the server (game master or administrator).
 * Hover a row for the item tooltip. Shift-click a row to link the item in chat. Escape closes the window, and it can
   be dragged.
 

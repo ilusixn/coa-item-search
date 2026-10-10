@@ -43,15 +43,6 @@ local countLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontHighlightSmal
 countLabel:SetPoint("TOPLEFT", 26, -66)
 countLabel:SetText("Type a name or an item id, then press Enter.")
 
-local qtyLabel = frame:CreateFontString(nil, "OVERLAY", "GameFontNormalSmall")
-qtyLabel:SetPoint("LEFT", box, "RIGHT", 14, 0)
-qtyLabel:SetText("Count")
-local qty = CreateFrame("EditBox", "CoAItemSearchQty", frame, "InputBoxTemplate")
-qty:SetSize(40, 22)
-qty:SetPoint("LEFT", qtyLabel, "RIGHT", 8, 0)
-qty:SetAutoFocus(false)
-qty:SetNumeric(true)
-qty:SetText("1")
 
 local scroll = CreateFrame("ScrollFrame", "CoAItemSearchScroll", frame, "FauxScrollFrameTemplate")
 scroll:SetPoint("TOPLEFT", 20, -86)
@@ -63,6 +54,7 @@ local function Refresh()
     for i = 1, ROWS do
         local row, item = rows[i], results[offset + i]
         if item then
+            if row.id ~= item.id then row.qty:SetText("") end    -- a new item in this row: back to 1
             row.id = item.id
             row.icon:SetTexture(GetItemIcon(item.id) or "Interface\\Icons\\INV_Misc_QuestionMark")
             row.name:SetText("|c" .. (QUALITY[item.q] or "ffffffff") .. item.name .. "|r")
@@ -86,7 +78,7 @@ for i = 1, ROWS do
     row.icon:SetPoint("LEFT")
     row.name = row:CreateFontString(nil, "OVERLAY", "GameFontNormal")
     row.name:SetPoint("TOPLEFT", row.icon, "TOPRIGHT", 6, 0)
-    row.name:SetWidth(260)
+    row.name:SetWidth(230)
     row.name:SetJustifyH("LEFT")
     row.info = row:CreateFontString(nil, "OVERLAY", "GameFontDisableSmall")
     row.info:SetPoint("BOTTOMLEFT", row.icon, "BOTTOMRIGHT", 6, 0)
@@ -94,8 +86,16 @@ for i = 1, ROWS do
     row.add:SetSize(80, 20)
     row.add:SetPoint("RIGHT")
     row.add:SetText("Add item")
+    row.qty = CreateFrame("EditBox", nil, row, "InputBoxTemplate")      -- amount for this item; empty = 1
+    row.qty:SetSize(34, 20)
+    row.qty:SetPoint("RIGHT", row.add, "LEFT", -6, 0)
+    row.qty:SetAutoFocus(false)
+    row.qty:SetNumeric(true)
+    row.qty:SetMaxLetters(4)
+    row.qty:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
+    row.qty:SetScript("OnEnterPressed", function(self) self:ClearFocus() row.add:Click() end)
     row.add:SetScript("OnClick", function()
-        local n = tonumber(qty:GetText()) or 1
+        local n = tonumber(row.qty:GetText()) or 1
         SendChatMessage(".additem " .. row.id .. " " .. math.max(1, n), "SAY")
     end)
     row:SetScript("OnEnter", function(self)                  -- tooltip once the client knows the item
@@ -142,7 +142,6 @@ end
 
 box:SetScript("OnEnterPressed", function(self) Search(self:GetText()) self:ClearFocus() end)
 box:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
-qty:SetScript("OnEscapePressed", function(self) self:ClearFocus() end)
 frame:SetScript("OnShow", function() box:SetFocus() Refresh() end)
 
 SLASH_COAITEMSEARCH1 = "/items"
