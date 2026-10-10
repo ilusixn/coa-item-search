@@ -88,8 +88,8 @@ for i = 1, ROWS do
     row.add:SetText("Add item")
     row.qty = CreateFrame("EditBox", nil, row)                          -- amount for this item; empty = 1
     row.qty:SetSize(38, 20)                                              -- (InputBoxTemplate breaks at this size)
-    row.qty:SetBackdrop({ bgFile = "Interface\ChatFrame\ChatFrameBackground",
-        edgeFile = "Interface\Tooltips\UI-Tooltip-Border", edgeSize = 10,
+    row.qty:SetBackdrop({ bgFile = "Interface\\ChatFrame\\ChatFrameBackground",
+        edgeFile = "Interface\\Tooltips\\UI-Tooltip-Border", edgeSize = 10,
         insets = { left = 2, right = 2, top = 2, bottom = 2 } })
     row.qty:SetBackdropColor(0, 0, 0, 0.7)
     row.qty:SetBackdropBorderColor(0.6, 0.6, 0.6, 1)
